@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/opensans-regular/OpenSans-Regular.eot");
+  src: local("Open Sans"), local("Open Sans"),
+    url("../fonts/opensans-regular/OpenSans-Regular.eot#iefix") format("embedded-opentype"),
+    url("../fonts/opensans-regular/OpenSans-Regular.woff2") format("woff2"),
+    url("../fonts/opensans-regular/OpenSans-Regular.woff") format("woff"),
+    url("../fonts/opensans-regular/OpenSans-Regular.ttf") format("truetype");
+}
+
+body {
+  font-family: "Open Sans";
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.ant-layout-header {
+  // background-color: #fff;
+  color: #fff;
+}
