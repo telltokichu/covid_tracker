@@ -12,7 +12,7 @@ class App extends Component {
 	render() {
 		console.log(window.location.host);
 		return (
-			<BrowserRouter basename="/">
+			<BrowserRouter>
 				{load('session') ? (
 					<Layout style={{ minHeight: '100vh' }}>
 						<SideNav
