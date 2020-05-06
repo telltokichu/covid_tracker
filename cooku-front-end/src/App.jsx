@@ -10,8 +10,9 @@ import Login from './pages/login';
 const { Header, Content, Footer } = Layout;
 class App extends Component {
 	render() {
+		console.log(window.location.host);
 		return (
-			<BrowserRouter>
+			<BrowserRouter basename="/">
 				{load('session') ? (
 					<Layout style={{ minHeight: '100vh' }}>
 						<SideNav
