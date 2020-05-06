@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
 	entry: {
 		app: [ '@babel/polyfill', './main.js' ]
@@ -63,7 +63,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: 'index.html',
 			favicon: 'favicon.ico' //Specify the path of the favicon here
-		})
+		}),
+		new CopyPlugin([ { from: '_redirects', to: '../dist' } ])
 	]
 };
 
