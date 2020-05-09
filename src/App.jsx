@@ -4,7 +4,7 @@ import Home from './pages/home';
 import { load, remove } from 'react-cookies';
 import Login from './pages/login';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -18,7 +18,7 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -26,19 +26,11 @@ import MainListItems from './navs';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import AddRecipe from './pages/AddRecipe';
-
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="https://material-ui.com/">
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import logo from './assets/images/logo.png';
 
 const drawerWidth = 240;
 
@@ -127,11 +119,59 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#fff',
 		marginRight: 10,
 		marginLeft: 10
+	},
+	search: {
+		height: '45px',
+		position: 'relative',
+		borderRadius: 25,
+		backgroundColor: '#c4c4c459',
+		'&:hover': {
+			backgroundColor: '#c4c4c494'
+		},
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: '100%'
+	},
+	searchIcon: {
+		height: '45px',
+		padding: theme.spacing(0, 2),
+		height: '100%',
+		position: 'absolute',
+		pointerEvents: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	inputRoot: {
+		color: 'inherit',
+		width: '100%',
+		height: '45px'
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		transition: theme.transitions.create('width'),
+		width: '100%'
+		// [theme.breakpoints.up('md')]: {
+		// 	width: '100%'
+		// }
+	},
+	navButton: {
+		marginRight: 10,
+		borderRadius: 20
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		width: '80px',
+		height: '60px'
 	}
 }));
 
 const App = () => {
 	const classes = useStyles();
+	const { pathname } = window.location;
+	console.log('pathname: ', pathname);
 	const [ open, setOpen ] = React.useState(false);
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -147,7 +187,7 @@ const App = () => {
 					<CssBaseline />
 					<AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
 						<Toolbar className={classes.toolbar}>
-							<IconButton
+							{/* <IconButton
 								edge="start"
 								color="inherit"
 								aria-label="open drawer"
@@ -155,10 +195,39 @@ const App = () => {
 								className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
 							>
 								<MenuIcon />
-							</IconButton>
-							<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-								Dashboard
-							</Typography>
+							</IconButton> */}
+							<Avatar className={classes.avatar} src={logo} />
+							<Button
+								component={Link}
+								variant="outlined"
+								color="primary"
+								to="/home"
+								className={classes.navButton}
+							>
+								Home
+							</Button>
+							<Button
+								component={Link}
+								variant="outlined"
+								color="primary"
+								to="/addrecipe"
+								className={classes.navButton}
+							>
+								Add
+							</Button>
+							<div className={classes.search}>
+								<div className={classes.searchIcon}>
+									<SearchIcon />
+								</div>
+								<InputBase
+									placeholder="Search…"
+									classes={{
+										root: classes.inputRoot,
+										input: classes.inputInput
+									}}
+									inputProps={{ 'aria-label': 'search' }}
+								/>
+							</div>
 							<IconButton color="inherit">
 								<Badge badgeContent={4} color="secondary">
 									<NotificationsIcon />
@@ -176,12 +245,17 @@ const App = () => {
 							/>
 							<Chip
 								className={classes.chip}
-								label={load('session').userInfo.displayName}
-								avatar={<Avatar src={load('session').userInfo.photoURL} />}
+								// label={load('session').userInfo.displayName}
+								avatar={
+									<Avatar
+										src={load('session').userInfo.photoURL}
+										style={{ height: '40px', width: '40px' }}
+									/>
+								}
 							/>
 						</Toolbar>
 					</AppBar>
-					<Drawer
+					{/* <Drawer
 						variant="permanent"
 						classes={{
 							paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
@@ -197,7 +271,7 @@ const App = () => {
 						<List>
 							<MainListItems />
 						</List>
-					</Drawer>
+					</Drawer> */}
 					<main className={classes.content}>
 						<div className={classes.appBarSpacer} />
 						<Container maxWidth={false} className={classes.container}>

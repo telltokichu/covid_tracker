@@ -15,7 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Add from '@material-ui/icons/Add';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
 	dashboard: {
 		// height: '100vh'
@@ -33,89 +33,17 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: '-312px',
 		background:
 			'url(https://image.freepik.com/free-vector/cook-collection-concept_23-2148508643.jpg) no-repeat center'
-	},
-	grow: {
-		flexGrow: 1
-	},
-	search: {
-		position: 'relative',
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: fade(theme.palette.common.white, 0.15),
-		'&:hover': {
-			backgroundColor: fade(theme.palette.common.white, 0.25)
-		},
-		marginRight: theme.spacing(2),
-		marginLeft: 0,
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			marginLeft: theme.spacing(3),
-			width: 'auto'
-		}
-	},
-	searchIcon: {
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	inputRoot: {
-		color: 'inherit'
-	},
-	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-		transition: theme.transitions.create('width'),
-		width: '100%',
-		[theme.breakpoints.up('md')]: {
-			width: '20ch'
-		}
-	},
-	sectionDesktop: {
-		display: 'none',
-		[theme.breakpoints.up('md')]: {
-			display: 'flex'
-		}
 	}
 }));
 const Home = () => {
+	console.log(useRouteMatch);
+	const { path } = useRouteMatch();
+	console.log('path: ', path);
 	const classes = useStyles();
 	const history = useHistory();
 	return (
 		<Grid className={classes.dashboard}>
 			<div className={classes.img} />
-			<AppBar position="static" className={classes.appbar}>
-				<Toolbar>
-					<div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</div>
-					<div className={classes.grow} />
-					<div className={classes.sectionDesktop}>
-						<Button
-							variant="contained"
-							color="secondary"
-							size="small"
-							startIcon={<Add />}
-							onClick={() => history.push('/addrecipe')}
-						>
-							Recipe
-						</Button>
-					</div>
-				</Toolbar>
-			</AppBar>
 		</Grid>
 	);
 };
