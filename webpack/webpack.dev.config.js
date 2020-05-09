@@ -6,6 +6,7 @@ const config = require('./env.config');
 module.exports = merge(base, {
 	mode: 'development',
 	devServer: {
+		open: true,
 		inline: true,
 		historyApiFallback: true,
 		https: true
