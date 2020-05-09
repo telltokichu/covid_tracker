@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		top: '50%',
 		marginTop: '-312px',
 		background:
-			'url(https://image.freepik.com/free-vector/cook-collection-concept_23-2148508643.jpg) no-repeat center'
+			'url(https://image.freepik.com/free-vector/couple-cooking-together-house_23-2148524194.jpg) no-repeat center'
 	},
 	grow: {
 		flexGrow: 1
