@@ -37,7 +37,7 @@ const App = () => {
 					<Grid item>
 						<Header />
 					</Grid>
-					<Grid item container justify="center">
+					{/* <Grid item container>
 						<Grid item xs={false} sm={false} md={1} />
 						<Grid item xs={11} sm={12} md={10}>
 							<Switch>
@@ -48,7 +48,13 @@ const App = () => {
 							</Switch>
 						</Grid>
 						<Grid item xs={false} sm={false} md={1} />
-					</Grid>
+					</Grid> */}
+					<Switch>
+						<Route exact path="/" exact component={Home} />
+						<Route path="/home" exact component={Home} />
+						<Route path="/addrecipe" exact component={AddRecipe} />
+						<Redirect to="/home" />
+					</Switch>
 				</Grid>
 			) : (
 				<Switch>

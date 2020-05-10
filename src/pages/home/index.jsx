@@ -21,10 +21,7 @@ export default function TitlebarGridList() {
 	const classes = useStyles();
 
 	const masonryOptions = {
-		transitionDuration: 500,
-		gutter: 0
-		// resize: true
-		// horizontalOrder: true
+		transitionDuration: 500
 	};
 	const [ feed, setfeed ] = useState([]);
 	useEffect(() => {
