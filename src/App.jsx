@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
 import Home from './pages/home';
 import { load, remove } from 'react-cookies';
 import Login from './pages/login';
@@ -22,6 +22,8 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Brightness4 from '@material-ui/icons/Brightness4';
+import Brightness7 from '@material-ui/icons/Brightness7';
 import MainListItems from './navs';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
@@ -29,149 +31,160 @@ import AddRecipe from './pages/AddRecipe';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import logo from './assets/images/logo.png';
-
+import { useDispatch, useSelector } from 'react-redux';
+import logo from './assets/images/logo.svg';
+import { modeDark, modeLight } from './services/theme/actions';
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-		backgroundColor: '#fff'
-	},
-	toolbar: {
-		paddingRight: 24, // keep right padding when drawer closed
-		backgroundColor: '#fff',
-		color: '#000',
-		borderBottom: '1px solid #7575754f'
-	},
-	toolbarIcon: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-		padding: '0 8px',
-		...theme.mixins.toolbar
-	},
-	appBar: {
-		zIndex: theme.zIndex.drawer + 1,
-		boxShadow: 'none',
-		transition: theme.transitions.create([ 'width', 'margin' ], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen
-		})
-	},
-	appBarShift: {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create([ 'width', 'margin' ], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen
-		})
-	},
-	menuButton: {
-		marginRight: 36
-	},
-	menuButtonHidden: {
-		display: 'none'
-	},
-	title: {
-		flexGrow: 1
-	},
-	drawerPaper: {
-		position: 'relative',
-		whiteSpace: 'nowrap',
-		width: drawerWidth,
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen
-		})
-	},
-	drawerPaperClose: {
-		overflowX: 'hidden',
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen
-		}),
-		width: theme.spacing(7),
-		[theme.breakpoints.up('sm')]: {
-			width: theme.spacing(7)
-		}
-	},
-	appBarSpacer: theme.mixins.toolbar,
-	content: {
-		flexGrow: 1,
-		height: '100vh',
-		overflow: 'auto'
-	},
-	container: {
-		padding: theme.spacing(0)
-	},
-	paper: {
-		padding: theme.spacing(2),
-		display: 'flex',
-		overflow: 'auto',
-		flexDirection: 'column'
-	},
-	fixedHeight: {
-		height: 240
-	},
-	chip: {
-		backgroundColor: '#fff',
-		marginRight: 10,
-		marginLeft: 10
-	},
-	search: {
-		height: '45px',
-		position: 'relative',
-		borderRadius: 25,
-		backgroundColor: '#c4c4c459',
-		'&:hover': {
-			backgroundColor: '#c4c4c494'
+const useStyles = makeStyles((theme) => {
+	console.log('=====>: ', theme.palette.type);
+	return {
+		root: {
+			display: 'flex',
+			backgroundColor: theme.palette.type == 'light' ? '#fff' : theme.palette.grey[900],
+			color: theme.palette.type == 'light' ? theme.palette.grey[900] : '#fff'
 		},
-		marginRight: theme.spacing(2),
-		marginLeft: 0,
-		width: '100%'
-	},
-	searchIcon: {
-		height: '45px',
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	inputRoot: {
-		color: 'inherit',
-		width: '100%',
-		height: '45px'
-	},
-	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-		transition: theme.transitions.create('width'),
-		width: '100%'
-		// [theme.breakpoints.up('md')]: {
-		// 	width: '100%'
-		// }
-	},
-	navButton: {
-		marginRight: 10,
-		borderRadius: 20
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		width: '80px',
-		height: '60px'
-	}
-}));
+		toolbar: {
+			paddingRight: 24, // keep right padding when drawer closed
+			backgroundColor: theme.palette.type == 'light' ? '#fff' : theme.palette.grey[900],
+			color: theme.palette.type == 'light' ? theme.palette.grey[900] : '#fff',
+			borderBottom: '1px solid #7575754f'
+		},
+		toolbarIcon: {
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'flex-end',
+			padding: '0 8px',
+			...theme.mixins.toolbar
+		},
+		appBar: {
+			zIndex: theme.zIndex.drawer + 1,
+			backgroundColor: theme.palette.type == 'light' ? '#fff' : theme.palette.grey[900],
+			boxShadow: 'none',
+			transition: theme.transitions.create([ 'width', 'margin' ], {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.leavingScreen
+			})
+		},
+		appBarShift: {
+			marginLeft: drawerWidth,
+			width: `calc(100% - ${drawerWidth}px)`,
+			transition: theme.transitions.create([ 'width', 'margin' ], {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.enteringScreen
+			})
+		},
+		menuButton: {
+			marginRight: 36
+		},
+		menuButtonHidden: {
+			display: 'none'
+		},
+		title: {
+			flexGrow: 1
+		},
+		drawerPaper: {
+			position: 'relative',
+			whiteSpace: 'nowrap',
+			width: drawerWidth,
+			transition: theme.transitions.create('width', {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.enteringScreen
+			})
+		},
+		drawerPaperClose: {
+			overflowX: 'hidden',
+			transition: theme.transitions.create('width', {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.leavingScreen
+			}),
+			width: theme.spacing(7),
+			[theme.breakpoints.up('sm')]: {
+				width: theme.spacing(7)
+			}
+		},
+		appBarSpacer: theme.mixins.toolbar,
+		content: {
+			flexGrow: 1,
+			height: '100vh',
+			overflow: 'auto'
+		},
+		container: {
+			padding: theme.spacing(0)
+		},
+		paper: {
+			padding: theme.spacing(2),
+			display: 'flex',
+			overflow: 'auto',
+			flexDirection: 'column'
+		},
+		fixedHeight: {
+			height: 240
+		},
+		chip: {
+			marginRight: 10,
+			marginLeft: 10
+		},
+		search: {
+			height: '45px',
+			position: 'relative',
+			borderRadius: 25,
+			backgroundColor: '#c4c4c459',
+			'&:hover': {
+				backgroundColor: '#c4c4c494'
+			},
+			marginRight: theme.spacing(2),
+			marginLeft: 0,
+			width: '100%'
+		},
+		searchIcon: {
+			height: '45px',
+			padding: theme.spacing(0, 2),
+			height: '100%',
+			position: 'absolute',
+			pointerEvents: 'none',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center'
+		},
+		inputRoot: {
+			color: 'inherit',
+			width: '100%',
+			height: '45px'
+		},
+		inputInput: {
+			padding: theme.spacing(1, 1, 1, 0),
+			// vertical padding + font size from searchIcon
+			paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+			transition: theme.transitions.create('width'),
+			width: '100%'
+			// [theme.breakpoints.up('md')]: {
+			// 	width: '100%'
+			// }
+		},
+		navButton: {
+			marginRight: 10,
+			borderRadius: 20,
+			backgroundColor: theme.palette.type == 'light' ? '#fff' : theme.palette.grey[400]
+		},
+		avatar: {
+			margin: theme.spacing(1),
+			width: '80px',
+			height: '60px',
+			filter: theme.palette.type == 'light' ? `grayscale(0)` : `grayscale(1)`
+		}
+	};
+});
 
 const App = () => {
+	const dispatch = useDispatch();
+	const { themeReducer } = useSelector(({ themeReducer }) => {
+		return {
+			themeReducer
+		};
+	});
 	const classes = useStyles();
 	const { pathname } = window.location;
-	console.log('pathname: ', pathname);
 	const [ open, setOpen ] = React.useState(false);
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -233,6 +246,18 @@ const App = () => {
 									<NotificationsIcon />
 								</Badge>
 							</IconButton>
+							<IconButton
+								color="inherit"
+								onClick={() => {
+									if (themeReducer == 'light') {
+										dispatch(modeDark());
+									} else {
+										dispatch(modeLight());
+									}
+								}}
+							>
+								{themeReducer != 'light' ? <Brightness7 /> : <Brightness4 />}
+							</IconButton>
 							<Chip
 								className={classes.chip}
 								label="Logout"
@@ -243,16 +268,7 @@ const App = () => {
 								variant="outlined"
 								clickable
 							/>
-							<Chip
-								className={classes.chip}
-								// label={load('session').userInfo.displayName}
-								avatar={
-									<Avatar
-										src={load('session').userInfo.photoURL}
-										style={{ height: '40px', width: '40px' }}
-									/>
-								}
-							/>
+							<Avatar src={load('session').userInfo.photoURL} style={{ height: '40px', width: '40px' }} />
 						</Toolbar>
 					</AppBar>
 					{/* <Drawer

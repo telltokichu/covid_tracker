@@ -9,17 +9,6 @@ const useStyles = makeStyles((theme) => ({
 	appbar: {
 		padding: 0
 	},
-	img: {
-		width: 626,
-		height: 417,
-		position: 'absolute',
-		left: '50%',
-		marginLeft: '-312px',
-		top: '50%',
-		marginTop: '-312px',
-		background:
-			'url(https://image.freepik.com/free-vector/couple-cooking-together-house_23-2148524194.jpg) no-repeat center'
-	},
 	grow: {
 		flexGrow: 1
 	},
@@ -80,7 +69,6 @@ const AddRecipe = () => {
 	});
 	return (
 		<Grid className={classes.dashboard}>
-			<div className={classes.img} />
 			<form onSubmit={handleSubmit((data) => console.log('data', data))}>
 				<ul>
 					{fields.map((item, index) => (

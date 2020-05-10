@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from '../../components/copyright';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.svg';
 import { Chip } from '@material-ui/core';
 import firebase from 'firebase/app';
 import { save } from 'react-cookies';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '100vh'
 	},
 	image: {
-		backgroundImage: 'url(https://image.freepik.com/free-vector/chef-concept-illustration_114360-1219.jpg)',
+		backgroundImage: 'url(src/assets/images/loginBg.svg)',
 		backgroundRepeat: 'no-repeat',
 		backgroundColor: theme.palette.type === 'light' ? '#fff' : theme.palette.grey[900],
 		backgroundSize: 'inherit',
