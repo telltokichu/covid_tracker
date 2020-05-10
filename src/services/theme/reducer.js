@@ -1,4 +1,4 @@
-export default (state = 'light', { payload, type }) => {
+export default (state = 'dark', { payload, type }) => {
 	switch (type) {
 		case 'DARK':
 			return 'dark';

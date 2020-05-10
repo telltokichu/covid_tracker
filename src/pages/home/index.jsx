@@ -1,36 +1,64 @@
-import React, { Component } from 'react';
-import { Button, Grid } from '@material-ui/core';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Add from '@material-ui/icons/Add';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import InfoIcon from '@material-ui/icons/Info';
+import tileData from './tileData';
+import logo from '../../assets/images/bg_1.svg';
+import RecipeCard from '../../components/recipeCard';
+import Masonry from 'react-masonry-component';
 const useStyles = makeStyles((theme) => ({
-	palette: {
-		type: 'dark'
-	},
-	dashboard: {
-		// height: '100vh'
-	},
-	appbar: {
-		padding: 0
+	root: {
+		minHeight: '100vh',
+		height: '100%'
 	}
 }));
-const Home = () => {
-	const classes = useStyles();
-	const history = useHistory();
-	return <Grid className={classes.dashboard} />;
-};
 
-export default Home;
+export default function TitlebarGridList() {
+	const classes = useStyles();
+
+	const masonryOptions = {
+		transitionDuration: 500,
+		gutter: 0
+		// resize: true
+		// horizontalOrder: true
+	};
+	const [ feed, setfeed ] = useState([]);
+	useEffect(() => {
+		var i,
+			elements = [];
+		for (i = 0; i < 50; i++) {
+			elements.push(
+				{
+					height: `${Math.floor(Math.random() * 400) + 200}px`,
+					image: `https://picsum.photos/${Math.floor(Math.random() * 400) + 100}/${Math.floor(
+						Math.random() * 400
+					) + 100}`
+				}
+				//
+			);
+		}
+		setfeed(elements);
+	}, []);
+	const renderFeed = (feed) => {
+		return feed.map(({ image, height }, index) => {
+			return <RecipeCard key={index} height={height} image={image} className="image-element-class" />;
+		});
+	};
+	const imagesLoadedOptions = { background: '.my-bg-image-el' };
+	return (
+		<Masonry
+			className={'my-gallery-class'}
+			style={{ marginTop: '93px', minHeight: '100vh', height: '100%' }}
+			options={masonryOptions}
+			disableImagesLoaded={true}
+			updateOnEachImageLoad={true}
+			imagesLoadedOptions={imagesLoadedOptions}
+		>
+			{renderFeed(feed)}
+		</Masonry>
+	);
+}
