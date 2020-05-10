@@ -17,35 +17,20 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
+	palette: {
+		type: 'dark'
+	},
 	dashboard: {
 		// height: '100vh'
 	},
 	appbar: {
 		padding: 0
-	},
-	img: {
-		width: 626,
-		height: 417,
-		position: 'absolute',
-		left: '50%',
-		marginLeft: '-312px',
-		top: '50%',
-		marginTop: '-312px',
-		background:
-			'url(https://image.freepik.com/free-vector/cook-collection-concept_23-2148508643.jpg) no-repeat center'
 	}
 }));
 const Home = () => {
-	console.log(useRouteMatch);
-	const { path } = useRouteMatch();
-	console.log('path: ', path);
 	const classes = useStyles();
 	const history = useHistory();
-	return (
-		<Grid className={classes.dashboard}>
-			<div className={classes.img} />
-		</Grid>
-	);
+	return <Grid className={classes.dashboard} />;
 };
 
 export default Home;
